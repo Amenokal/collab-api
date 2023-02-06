@@ -28,23 +28,23 @@ npm run dev
 
 NOTES :
 
-- Le JWT doit être passé dans les Headers de la requête avec la clé "Authorization"
+- @header fait référence au JWT qui doit être envoyé sous la clé "Authorization" dans le header
 - @body fait référence au paramètres à passer dans le body de la requête
 - @return fait référence à ce que renvoie l'API dans la response
 
 ## Auth
 
-### Login (TODO)
+### Login
 > POST /login | body: Credentials (voir ci-dessous)
 
 >> @body: Credentials
 
 >> @return: JWT
 ---
-### Logout (TODO)
+### Logout
 > POST /logout
 
->> @body: JWT
+>> @header: JWT
 
 >> @return: 200
 
