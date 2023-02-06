@@ -32,7 +32,6 @@ NOTES :
 - @body fait référence au paramètres à passer dans le body de la requête
 - @return fait référence à ce que renvoie l'API dans la response
 
-
 ## Auth
 
 ### Login (TODO)
