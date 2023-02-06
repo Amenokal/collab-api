@@ -1,7 +1,7 @@
 import { User } from '../models/User.js'
 
 export default class UserController {
-  
+
   static async create(req, res, next) {
     try {
       const user = await User.create(req.body)
@@ -33,18 +33,13 @@ export default class UserController {
   }
 
 
-  // https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
   static async getRandom(req, res, next) {
     try {
       const users = await User.findAll()
-    
-      const randomUser = users
-        .map((value) => ({ value, sortId: Math.random()}))
-        .sort((a, b) => a.sortId - b.sortId)
-        .map(({ value }) => value)
-        .at(0)
+
+      const randomIndex = Math.floor(Math.random() * users.length)
         
-      res.json(randomUser)
+      res.json(users.at(randomIndex))
     }
     catch (err) {
       res.status(500).json({msg: "Server Error", stack: err})
