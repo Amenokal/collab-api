@@ -1,13 +1,7 @@
 import { User } from '../models/User.js'
 
 export default class UserController {
-
-  /**
-   * INFOS
-   * @param {*} req 
-   * @param {*} res 
-   * @param {*} next 
-   */
+  
   static async create(req, res, next) {
     try {
       const user = await User.create(req.body)
