@@ -35,7 +35,7 @@ NOTES :
 ## Auth
 
 ### Login
-> POST /login | body: Credentials (voir ci-dessous)
+> POST /login
 
 >> @body: Credentials
 
