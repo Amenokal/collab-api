@@ -1,14 +1,14 @@
 import jwt from 'jsonwebtoken'
 import Config from '../../config.js'
 
-export function create(credentials, isAdmin) {
+export function createToken(data) {
   return jwt.sign(
-    { credentials, isAdmin },
+    data,
     Config.JWT_SECRET,
-    { expiresIn: '1h'}
+    { expiresIn: '1h' }
   )
 }
 
-export function verify(token) {
+export function verifyToken(token) {
   return jwt.verify(token, Config.JWT_SECRET)
 }
