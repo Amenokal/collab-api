@@ -6,6 +6,7 @@ export const authMiddleware = (req, res, next) => {
     next()
   }
   catch(err) {
+    console.log('Auth middleware error\n')
     console.log(err)
     return res.status(401).send({msg: 'Unauthorized'})
   }
@@ -17,6 +18,8 @@ export const adminMiddleware = async (req, res, next) => {
     token.isAdmin && next()
   }
   catch(err) {
-    return res.status(401).send({msg: 'Unauthorized 2'})
+    console.log('Admin middleware error\n')
+    console.log(err)
+    return res.status(401).send({msg: 'Unauthorized'})
   }
 }
