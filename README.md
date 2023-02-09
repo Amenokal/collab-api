@@ -2,10 +2,16 @@
 
 # Config
 
-Configurer la connection string dans config.js
+La config est accessible via la variable Config (``/src/_config.js``) qui récupère les infos du .env
+
+## SEQUELIZE: 
+
+Configurer la connection string dans le fichier .env
+
+DB_CONNECTION="``db_type``://``<username``:``password``@``database-url:port``/``database-name``"
+
 ```
-template : 'mysql://username:password@database-url:port/database-name'
-exemple  : 'mysql://root:@localhost:3306/intranet'
+exemple : DB_CONNECTION="mysql://root:@localhost:3306/exo-intranet-db"
 ```
 
 <br>
@@ -19,8 +25,10 @@ npm install
 
 Lancer le serveur
 ```bash
-npm run dev
+dev: npm run dev
+prod: npm run serve
 ```
+
 
 <br>
 
@@ -41,12 +49,19 @@ NOTES :
 
 >> @return: JWT
 ---
+### Refresh JWT
+> POST /refresh
+
+>> @body: userId (Int)
+
+>> @return: JWT
+---
 ### Logout
 > POST /logout
 
 >> @header: JWT
 
->> @return: 200
+>> @return: http code 200 (void)
 
 <br>
 
@@ -60,11 +75,6 @@ NOTES :
 > GET /user/:userId
 
 >> @return: User (l'utilisateur dont l'id est passé dans l'URL)
----
-### Récupérer un utilisateur aléatoire
-> GET /user/random
-
->> @return: User
 ---
 ### Créer un utilisateur (admin only)
 > POST /user
@@ -91,11 +101,37 @@ NOTES :
 
 >> @body: User
 
->> @return: Array[User] (Tous les utilisateurs sauf celui venant d'être supprimé)
+>> @return: User (l'utilisateur supprimé)
 
 <br>
 
-# DTOs
+## Message
+
+### Récupérer les messages de l'utilisateur connecté
+
+> GET /message
+
+>> @header: JWT
+
+>> @return: Array[Message]
+---
+### Envoyer un message
+
+> POST /message
+
+>> @return: http code 200 (void)
+---
+### Supprimer un message
+
+> DELETE /message/:msgId
+
+>> @header: JWT
+
+>> @return: Message (le message supprimé)
+
+<br>
+
+# Models & DTOs
 ## JWT
 ```ts
 type JWT = {
@@ -114,6 +150,7 @@ type Credentials = {
 ## User
 ```ts
 type User = {
+  id: Integer
   gender: String,
   firstname: String,
   lastname: String,
@@ -126,5 +163,15 @@ type User = {
   category: String,
   birthdate: Date,
   isAdmin: Boolean,
+}
+```
+---
+## Message
+```ts
+type Message = {
+  id: Integer
+  senderId: Integer,
+  receiverId: Integer,
+  content: String
 }
 ```

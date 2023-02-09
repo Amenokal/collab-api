@@ -1,12 +1,11 @@
 import bodyParser from 'body-parser'
 import express from 'express'
 import router from './src/router/index.js'
-import Config from './config.js'
+import Config from './src/_Config.js'
 import cors from 'cors'
 
-import { init, reset } from './src/db/index.js'
-// await reset()
-await init()
+// import { initDB } from './src/db/index.js'
+// await initDB()
 
 const app = express()
 app.use(cors())

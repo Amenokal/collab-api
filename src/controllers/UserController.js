@@ -1,56 +1,82 @@
 import { User } from '../models/User.js'
 
 export default class UserController {
+  
+  /**
+   * Créer un utilisateur
+   * @body User
+   * @return User
+   */
   static async create(req, res, next) {
     try {
       const user = await User.create(req.body)
-      return res.status(201).json(user)
+      res.status(201).json(user)
     }
     catch (err) {
-      return res.status(500).json({msg: "Server Error", stack: err})
+      next(err)
     }
   }
 
+  /**
+   * Récupérer tous les utilisateurs
+   * @return Array[User]
+   */
   static async getAll(req, res, next) {
     try {
       const users = await User.findAll()
-      return res.json(users)
+      res.json(users)
     }
     catch (err) {
-      return res.status(500).json({msg: "Server Error", stack: err})
+      next(err)
     }
   }
 
+  /**
+   * Récupérer un utilisateur particulier
+   * @route userId (Int)
+   * @return User
+   */
   static async getOne(req, res, next) {
     try {
       const user = await User.findByPk(req.params.userId)
-      return res.json(user)
+      res.json(user)
     }
     catch (err) {
-      return res.status(500).json({msg: "Server Error", stack: err})
+      next(err)
     }
   }
 
+  /**
+   * Update un utilisateur
+   * @route userId (Int)
+   * @body User
+   * @return User
+   */
   static async update(req, res, next) {
     try {
       const user = await User.findByPk(req.params.userId)
       user.set(req.body)
       await user.save()
-      return res.json(user)
+      res.json(user)
     }
     catch (err) {
-      return res.status(500).json({msg: "Server Error", stack: err})
+      next(err)
     }
   }
 
+  /**
+   * Supprimer un utilisateur
+   * @route userId (Int)
+   * @return User
+   */
   static async delete(req, res, next) {
     try {
       const user = await User.findByPk(req.params.userId)
       await user.destroy()
-      return res.status(200).json(user)
+      res.status(200).json(user)
     }
     catch (err) {
-      return res.status(500).json({msg: "Server Error", stack: err})
+      next(err)
     }
   }
 }

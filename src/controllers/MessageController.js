@@ -4,46 +4,61 @@ import { verifyToken } from '../services/jwt.service.js'
 
 export default class MessageController {
 
+  /**
+   * Récupérer les messages d'un utilisateur connecté
+   * @headers "Authorization": JWT
+   * @return Array[Message]
+   */
   static async get(req, res, next) {
     try {
-      const { userId } = verifyToken(req.header("Authorization"))
+      const token = verifyToken(req.header("Authorization"))
       const messages = await Message.findAll({
-        where: { receiverId: userId }
+        where: { receiverId: token.userId }
       })
-      return res.json(messages)
+      res.json(messages)
     }
     catch(err) {
-      return res.status(500).json({msg: "Server Error", stack: err})
+      next(err)
     }
   }
 
+  /**
+   * Envoyer un message
+   * @headers "Authorization": JWT
+   * @body receiverId (Integer)
+   * @return Array[Message]
+   */
   static async create(req, res, next) {
     try {
       const { userId } = verifyToken(req.header("Authorization"))
       const sender = await User.findByPk(userId)
 
       const message = await Message.create({
+        senderId: sender.id,
         receiverId: req.body.receiverId,
-        senderName: sender.firstname,
-        senderPhoto: sender.photo,
         content: req.body.content
       })
 
-      return res.status(201).json(message)
+      res.status(201).json(message)
     }
     catch (err) {
-      return res.status(500).json({msg: "Server Error", stack: err})
+      next(err)
     }
   }
 
+  /**
+   * Supprimer un message
+   * @route msgId (Integer)
+   * @return Message
+   */
   static async delete(req, res, next) {
     try {
       const msg = await Message.findByPk(req.params.msgId)
       await msg.destroy()
-      return res.status(200).json(msg)
+      res.json(msg)
     }
     catch (err) {
-      return res.status(500).json({msg: "Server Error", stack: err})
+      next(err)
     }
   }
 }

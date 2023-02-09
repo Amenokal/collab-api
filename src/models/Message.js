@@ -7,14 +7,11 @@ export const Message = sequelize.define("message", {
     autoIncrement: true,
     primaryKey: true
   },
-  receiverId: {
+  senderId: {
     type: Sequelize.INTEGER
   },
-  senderName: {
-    type: DataTypes.TEXT
-  },
-  senderPhoto: {
-    type: DataTypes.TEXT
+  receiverId: {
+    type: Sequelize.INTEGER
   },
   content: {
     type: DataTypes.TEXT
